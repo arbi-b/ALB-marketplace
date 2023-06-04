@@ -1,4 +1,6 @@
 from typing import Optional
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -30,17 +32,24 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'photos']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    def post_form(request):
+        submitted = False
+        if request.method == 'POST':
+            form = PostCreateView(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+
 
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'photos']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
