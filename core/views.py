@@ -27,12 +27,11 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
-    
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'photos']
+    fields = ['title', 'content', 'photos', 'photos1', 'photos2', 'photos3']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
