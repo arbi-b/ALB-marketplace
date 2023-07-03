@@ -12,10 +12,11 @@
     
     <link rel="stylesheet" type="text/css" href=" {% static 'core/main.css' %} ">
     {% if title %}
-    <title>DJANGO Project - {{ title }}</title>
+    <title>Tregu Shqiptar - {{ title }}</title>
     {% else %}
-    <title>DJANGO Project</title>
+    <title>Tregu Shqiptar</title>
     {% endif %}
+    <link rel="icon" type="image/x-icon" href="/media/favicon.png">
 </head>
 <body>
     <header class="site-header">
@@ -32,6 +33,11 @@
               </div>
               <!-- Navbar Right Side -->
               <div class="navbar-nav">
+                <form method="POST" action="{% url 'search-posts' %}" class="form-inline">
+                  {% csrf_token %}
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searched">
+                  <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
                 {% if user.is_authenticated %}
                 <a class="nav-item nav-link" href="{% url 'post-create' %}">Create Post</a>
                 <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
@@ -57,20 +63,8 @@
             {% endif %}
             {% block content %}{% endblock %}
           </div>
-          <div class="col-md-4">
-            <div class="content-section">
-              <h3>Our Sidebar</h3>
-              <p class='text-muted'>You can put any information here you'd like.
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Latest Posts</li>
-                  <li class="list-group-item list-group-item-light">Announcements</li>
-                  <li class="list-group-item list-group-item-light">Calendars</li>
-                  <li class="list-group-item list-group-item-light">etc</li>
-                </ul>
-              </p>
-            </div>
-          </div>
         </div>
+        <br><br><br>
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

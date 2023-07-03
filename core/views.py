@@ -1,21 +1,35 @@
-from typing import Optional
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
-from .models import Post
-
+from .models import Post, Category
 
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all(),
+        'categories': Category.objects.all()
     }
     return render(request, 'core/home.html', context)
 
 
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        posts = Post.objects.filter(title__contains=searched)
+        return render(request, 'core/search.html', {'searched':searched, 'posts':posts})
+    else:
+        return render(request, 'core/search.html', {})
+
+
+
+class CategoryView(ListView):
+    ordering = ['-date_posted']
+
+def CategoryView(request, cat):
+    category_posts = Post.objects.filter(category__name=cat)
+    return render(request, 'core/categories.html', {'cat':cat.title(), 'category_posts':category_posts})
+    
 
 class PostListView(ListView):
     model = Post
@@ -31,8 +45,8 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'photos']
-    
+    fields = ['category', 'title', 'content', 'photos']
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -42,13 +56,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             form = PostCreateView(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
-
-
-
+        
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'photos']
+    fields = ['category', 'title', 'content', 'photos']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
