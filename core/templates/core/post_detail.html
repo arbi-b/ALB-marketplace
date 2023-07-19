@@ -18,12 +18,40 @@
             <h2 class="article-title">{{ object.title }}</a></h2>
             <div>
               {% if post.photos %}
-                <img src="{{ post.photos.url }}" width="500">
+              <img src="{{ post.photos.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos2 %}
+              <img src="{{ post.photos2.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos3 %}
+              <img src="{{ post.photos3.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos4 %}
+              <img src="{{ post.photos4.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos5 %}
+              <img src="{{ post.photos5.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos6 %}
+              <img src="{{ post.photos6.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos7 %}
+              <img src="{{ post.photos7.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos8 %}
+              <img src="{{ post.photos8.url }}" width="500" style="margin-bottom: 10px;">
+              {% endif %}
+              {% if post.photos9 %}
+              <img src="{{ post.photos9.url }}" width="500" style="margin-bottom: 10px;">
               {% endif %}
             </div> 
-            <br>
+            <hr>
+            <h5>Cmimi: € {{ post.price }}</h5><hr>
+            <h5>Numri i celularit: {{ object.author.profile.phone_number }}</h5><hr>
             <p class="article-content">{{ object.content }}</p>
           </div>
         </article>    
 {% endblock content %}
+
+
 

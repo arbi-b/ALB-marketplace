@@ -2,30 +2,34 @@
 {% block content %}
 
 {% if category_posts %}
-    <h2> Kategoria e {{ cat }}-ve</h2>
+    <h2> Kategoria e {{ cat }}-ve</h2><hr><br>
 
     <ul>    
         {% for post in category_posts %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="">
             <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted|date:"j F Y" }}----------<a href="{% url 'category' post.category %}">{{ post.category }}</a></small> 
-            </small> 
-            </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-            <div>
-                {% if post.photos %}
-                <img src="{{ post.photos.url }}" width="470">
-                {% endif %}
-            </div>
+                <div class="article-metadata">
+                        {{ post.author }}
+                    <small class="text-muted">{{ post.date_posted|date:"j F Y" }}  ~~~ 
+                        <a href="{% url 'category' post.category %}">{{ post.category }}</a>
+                    </small> 
+                </div>
+                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                
+                <div style="position: relative; height: 450px; width: 650px;">
+                    {% if post.photos %}
+                      <img src="{{ post.photos.url }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    {% endif %}
+                  </div>
+                  
+
             </div>
         </article>
     {% endfor %}
     </ul>
 {% else  %}
-<h2>Sorry this page does not exist..</h2>
+<h2>Nuk ka postime për këtë kategori...</h2>
 {% endif %}
 
 {% endblock content %}
